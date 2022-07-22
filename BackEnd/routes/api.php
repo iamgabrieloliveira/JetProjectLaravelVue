@@ -27,17 +27,21 @@ Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
 Route::delete('logout', [UserController::class, 'logout']);
 
-Route::get('cars', [CarController::class, 'index']);
-Route::get('search', [CarController::class, 'search']);
+Route::middleware('auth')->group(function(){
+    Route::get('cars', [CarController::class, 'index']);
+    Route::get('search', [CarController::class, 'search']);
 
-Route::post('store', [CarController::class, 'store']);
-Route::delete('destroy/{car_id}', [CarController::class, 'destroy']);
-Route::get('update/{car_id}', [CarController::class, 'update']);
-Route::post('update/car/{car_id}', [CarController::class, 'postUpdate']);
-Route::get('about/{car_id}', [CarController::class, 'about']);
-
-//Profile
-Route::get('profile/{user_id}', [ProfileController::class, 'index']);
+//Crud Car
+    Route::post('store', [CarController::class, 'store']);
+    Route::delete('destroy/{car_id}', [CarController::class, 'destroy']);
+    Route::get('update/{car_id}', [CarController::class, 'update']);
+    Route::post('update/car/{car_id}', [CarController::class, 'postUpdate']);
+    Route::get('about/{car_id}', [CarController::class, 'about']);
 
 //Dashboard
-Route::get('dashboard', [DashboardController::class, 'index']);
+    Route::get('dashboard', [DashboardController::class, 'index']);
+    Route::get('dashboard/order/car', [DashboardController::class, 'orderCar']);
+    Route::get('dashboard/order/history', [DashboardController::class, 'orderHistory']);
+});
+
+

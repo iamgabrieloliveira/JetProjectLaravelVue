@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "anychart": "^8.11.0",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0-beta1",
     "bootstrap-vue": "^2.22.0",

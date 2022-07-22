@@ -12,7 +12,9 @@ class CarController extends Controller
 {
     public function index(): JsonResponse
     {
-        $cars = Car::all();
+        $cars = Car::query()
+            ->orderBy('created_at', 'desc')
+            ->get();
         $users = User::all();
 
         return response()->json(['cars' => $cars, 'users' => $users], 200);
@@ -24,13 +26,11 @@ class CarController extends Controller
             ->where('brand', 'like','%'.$request['search'].'%')
             ->orWhere('model', 'like','%'.$request['search'].'%')
             ->get();
+
         return response()->json(['cars' => $cars, 'users' => $users], 200);
     }
     public function store(StoreCarRequest $request): JsonResponse
     {
-        $request['hasAirBag'] = $request['hasAirBag'] == "false" ? 0 : 1;
-        $request['hasInsurance'] = $request['hasInsurance'] == "false" ? 0 : 1;
-
         $image = $this->saveImage($request['image']);
         $car = new Car([
             'brand' => $request['brand'],
@@ -41,8 +41,8 @@ class CarController extends Controller
             'price' => $request['price'],
             'currentFipePrice' => $request['currentFipePrice'],
             'carFuel' => $request['carFuel'],
-            'hasInsurance' => !!$request['hasInsurance'],
-            'hasAirBag' => !!$request['hasAirBag'],
+            'hasInsurance' => $request['hasInsurance'] == "false" ? 0 : 1,
+            'hasAirBag' => $request['hasAirBag'] == "false" ? 0 : 1,
             'licensePlate' => $request['licensePlate']
         ]);
         $car->save();
@@ -66,22 +66,19 @@ class CarController extends Controller
         $users = User::all();
         return response()->json(['car' => $car, 'users' => $users], 200);
     }
-    public function postUpdate($car, StoreCarRequest $request)
+    public function postUpdate(Car $car, StoreCarRequest $request): JsonResponse
     {
-        $request['hasAirBag'] = $request['hasAirBag'] == "false" ? 0 : 1;
-        $request['hasInsurance'] = $request['hasInsurance'] == "false" ? 0 : 1;
-
         $car['brand'] = $request['brand'];
         $car['model'] = $request['model'];
         $car['year'] = $request['year'];
         $car['price'] = $request['price'];
         $car['image'] = $request['image'] ? $request['image'] : $car['image'];
         $car['carFuel'] = $request['carFuel'];
-        $car['hasAirBag'] = !!$request['hasAirBag'];
-        $car['hasInsurance'] = !!$request['hasInsurance'];
+        $car['hasAirBag'] = $request['hasAirBag'] == "false" ? 0 : 1;
+        $car['hasInsurance'] = $request['hasInsurance'] == "false" ? 0 : 1;
         $car['licensePlate'] = $request['licensePlate'];
-
         $car->save();
+
         return response()->json([$car], 200);
     }
     public function about(Car $car): JsonResponse

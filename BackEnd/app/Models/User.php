@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\CarHistory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -47,5 +48,9 @@ class User extends Authenticatable
     public function cars(): HasMany
     {
         return $this->hasMany(Car::class);
+    }
+    public function history(): HasMany
+    {
+        return $this->hasMany(CarHistory::class);
     }
 }
