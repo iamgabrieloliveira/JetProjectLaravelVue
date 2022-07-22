@@ -13,12 +13,12 @@ class Authenticate extends Middleware
      * @param  \Illuminate\Http\Request  $request
      * @return JsonResponse
      */
-    protected function redirectTo($request)
+    protected function redirectTo($request): JsonResponse
     {
         if($request->user()){
-            return response()->json([], 200);
+            return response()->json(['Success'], 200);
         }else{
-            abort(401);
+            return response()->json(['Error Message' => "User is not authenticated!"], 401);
         }
     }
 }

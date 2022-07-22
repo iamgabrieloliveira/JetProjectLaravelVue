@@ -9,10 +9,10 @@ class CarObserver
     /**
      * Handle the Car "created" event.
      *
-     * @param  \App\Models\Car  $car
+     * @param Car $car
      * @return void
      */
-    public function created(Car $car)
+    public function created(Car $car): void
     {
         $car->insertCarHistory('Create');
     }
@@ -20,10 +20,10 @@ class CarObserver
     /**
      * Handle the Car "updated" event.
      *
-     * @param  \App\Models\Car  $car
+     * @param Car $car
      * @return void
      */
-    public function updated(Car $car)
+    public function updated(Car $car): void
     {
         $car->insertCarHistory('Update');
     }
@@ -31,10 +31,10 @@ class CarObserver
     /**
      * Handle the Car "deleted" event.
      *
-     * @param  \App\Models\Car  $car
+     * @param Car $car
      * @return void
      */
-    public function deleted(Car $car)
+    public function deleted(Car $car): void
     {
         $car->insertCarHistory('Delete');
     }
@@ -42,10 +42,10 @@ class CarObserver
     /**
      * Handle the Car "restored" event.
      *
-     * @param  \App\Models\Car  $car
+     * @param Car $car
      * @return void
      */
-    public function restored(Car $car)
+    public function restored(Car $car): void
     {
         //
     }
@@ -53,10 +53,10 @@ class CarObserver
     /**
      * Handle the Car "force deleted" event.
      *
-     * @param  \App\Models\Car  $car
+     * @param Car $car
      * @return void
      */
-    public function forceDeleted(Car $car)
+    public function forceDeleted(Car $car): void
     {
         //
     }

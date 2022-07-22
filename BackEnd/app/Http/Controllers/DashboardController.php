@@ -10,6 +10,12 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    /**
+     * Load data to show in dashboard page
+     *
+     * @return JsonResponse
+     */
+
     public function index(): JsonResponse
     {
         $value = Car::query()->sum('price');
@@ -32,6 +38,12 @@ class DashboardController extends Controller
         ], 200);
     }
 
+    /**
+     * Handle car according to request parameters
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function orderCar(Request $request): JsonResponse
     {
         if ($request['order'] == 'highprice') {
@@ -42,22 +54,28 @@ class DashboardController extends Controller
         return response()->json([$cars], 200);
     }
 
+    /**
+     * Order history according to request parameters
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function orderHistory(Request $request): JsonResponse
     {
-        if ($request['order'] != 'all') {
+        if ($request['order'] !== 'all') {
             $carHistory = CarHistory::query()
                 ->where('method', '=', $request['order'])
                 ->orderBy('created_at', 'desc')
                 ->get();
         } else {
             $carHistory = CarHistory::query()
-                ->orderBy('created_at','desc')
+                ->orderBy('created_at', 'desc')
                 ->get();
         }
+
         foreach ($carHistory as $history) {
             $history->user = $history->user()->first();
         }
-
         return response()->json([$carHistory], 200);
     }
 }

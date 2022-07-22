@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    /**
+     * @param UserLoginRequest $request
+     * @return JsonResponse
+     */
+
     public function login(UserLoginRequest $request): JsonResponse
     {
         if (Auth::attempt(['email' => $request['email'], 'password' => $request['password']])) {
@@ -19,6 +24,11 @@ class UserController extends Controller
             return response()->json(['message' => 'Email and password invalids!'], 402);
         }
     }
+
+    /**
+     * @param UserRegisterRequest $request
+     * @return JsonResponse
+     */
 
     public function register(UserRegisterRequest $request): JsonResponse
     {
@@ -31,6 +41,10 @@ class UserController extends Controller
 
         return response()->json(['message' => 'User created successfully!'], 200);
     }
+
+    /**
+     * @return JsonResponse
+     */
 
     public function logout(): JsonResponse
     {
