@@ -1,0 +1,1 @@
+import axios from 'axios';export default function auth({ next, router }) {    axios.get('http://localhost/apiuser')        .then((response) => {            return next();        })        .catch((error) => router.push({path: '/login'}))    return next();}
